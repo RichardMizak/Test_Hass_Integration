@@ -1,0 +1,9 @@
+{
+  "domain": "hi_mark",
+  "name": "Hi Mark",
+  "documentation": "https://www.example.com",
+  "dependencies": [],
+  "codeowners": [],
+  "requirements": [],
+  "version": 0.1
+}
