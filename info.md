@@ -1,3 +1,3 @@
 {% if prerelease %}
-### This is a Beta version v0.1!
+### This is an Alpha version v0.1!
 {% endif %}
