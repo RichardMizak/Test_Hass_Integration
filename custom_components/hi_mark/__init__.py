@@ -1,3 +1,4 @@
+from hassapi import Hass
 DOMAIN = "hi_mark_service"
 
 ATTR_NAME = "hi"
@@ -5,7 +6,7 @@ DEFAULT_NAME = "hi_mark"
 
 
 def setup(hass, config):
-
+    config = Hass(hassurl="http://IP_ADDRESS:8123/", token="YOUR_HASS_TOKEN")
 
     def handle(call):
 
