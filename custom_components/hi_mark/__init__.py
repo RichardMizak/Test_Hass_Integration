@@ -1,18 +1,27 @@
-from homeassistant.const import TEMP_CELSIUS
-from homeassistant.helpers.entity import Entity
+import os
+from homeassistant.helpers.entity import ToggleEntity
 
 def setup_platform(hass, config, add_devices, discovery_info=None):
-    add_devices([ExampleSensor()])
+    add_devices([FileSwitch(config['file_path'])])
 
-class ExampleSensor(Entity):
+class FileSwitch(ToggleEntity):
+    def __init__(self,path):
+        self.path = path
+        self.update()
+
     @property
     def name(self):
-        return 'Temperature'
+        return os.path.basename(self.path)
 
     @property
-    def state(self):
-        return 23
+    def is_on(self):
+        return self._state
 
-    @property
-    def unit_of_measurement(self):
-        return TEMP_CELSIUS
+    def turn_on(self, **kwargs):
+        open(self.path, 'a').close()
+
+    def turn_off(self, **kwargs):
+        os.remove(self.path)
+
+    def update(self):
+        self._state = os.path.isfile(self.path)
