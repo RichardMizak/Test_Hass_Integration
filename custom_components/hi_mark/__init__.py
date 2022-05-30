@@ -1,48 +1,18 @@
-from hassapi import Hass
-from homeassistant.components.button import ButtonEntity
+from homeassistant.const import TEMP_CELSIUS
+from homeassistant.helpers.entity import Entity
 
-DOMAIN = "hi_mark_service"
+def setup_platform(hass, config, add_devices, discovery_info=None):
+    add_devices([ExampleSensor()])
 
-ATTR_NAME = "hi"
-DEFAULT_NAME = "hi_mark"
-
-
-from homeassistant.components.switch import SwitchEntity
-
-
-class MySwitch(SwitchEntity):
-    def __init__(self):
-        self._is_on = False
-
+class ExampleSensor(Entity):
     @property
     def name(self):
-        """Name of the entity."""
-        return "My Switch"
+        return 'Temperature'
 
     @property
-    def is_on(self):
-        """If the switch is currently on or off."""
-        return self._is_on
+    def state(self):
+        return 23
 
-    def turn_on(self, **kwargs):
-        """Turn the switch on."""
-        self._is_on = True
-
-    def turn_off(self, **kwargs):
-        """Turn the switch off."""
-        self._is_on = False
-
-def setup(hass, config):
-    config = Hass(hassurl="http://IP_ADDRESS:8123/", token="YOUR_HASS_TOKEN")
-
-    def handle(call):
-
-        name = call.data.get(ATTR_NAME, DEFAULT_NAME)
-
-        hass.states.set("hi_mark_service.hello", name)
-
-    hass.services.register(DOMAIN, "hello", handle)
-
-
-    print("Oh, Hi Mark!")
-    return True
+    @property
+    def unit_of_measurement(self):
+        return TEMP_CELSIUS
