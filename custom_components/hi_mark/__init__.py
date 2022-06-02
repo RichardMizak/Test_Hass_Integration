@@ -1,27 +1,24 @@
-import os
-from homeassistant.helpers.entity import ToggleEntity
+from homeassistant.components.switch import SwitchEntity
 
-def setup_platform(hass, config, add_devices, discovery_info=None):
-    add_devices([FileSwitch(config['file_path'])])
 
-class FileSwitch(ToggleEntity):
-    def __init__(self,path):
-        self.path = path
-        self.update()
+class MySwitch(SwitchEntity):
+    def __init__(self):
+        self._is_on = False
 
     @property
     def name(self):
-        return os.path.basename(self.path)
+        """Name of the entity."""
+        return "My Switch"
 
     @property
     def is_on(self):
-        return self._state
+        """If the switch is currently on or off."""
+        return self._is_on
 
     def turn_on(self, **kwargs):
-        open(self.path, 'a').close()
+        """Turn the switch on."""
+        self._is_on = True
 
     def turn_off(self, **kwargs):
-        os.remove(self.path)
-
-    def update(self):
-        self._state = os.path.isfile(self.path)
+        """Turn the switch off."""
+        self._is_on = False
